@@ -1,37 +1,35 @@
-// pages/OccurrencesPage.tsx
+import { OccurrenceModal } from "@/components/OccurrenceModal";
 import {
-  Box,
   Button,
+  Input,
+  useDisclosure,
+  Box,
   Flex,
   Heading,
-  Input,
   Table,
+  Text,
+  Thead,
+  Th,
+  Tr,
   Tbody,
   Td,
-  Th,
-  Thead,
-  Tr,
-  VStack,
-  useDisclosure,
-  Text,
-} from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { OccurrenceModal } from 'ocorrencias';
+} from "@chakra-ui/react";
+import React, { useState } from "react";
 
-type Occurrencedata = {
+type OccurrenceData = {
   id: string;
   title: string;
   description: string;
   date: string;
 };
 
-const OccurrencesPage: React.FC = () => {
+export const OccurrencesPage: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [occurrences, setOccurrences] = useState<Occurrence[]>([]);
-  const [filterStart, setFilterStart] = useState('');
-  const [filterEnd, setFilterEnd] = useState('');
+  const [occurrences, setOccurrences] = useState<OccurrenceData[]>([]);
+  const [filterStart, setFilterStart] = useState("");
+  const [filterEnd, setFilterEnd] = useState("");
 
-  const addOccurrence = (occurrence: Occurrence) => {
+  const addOccurrence = (occurrence: OccurrenceData) => {
     setOccurrences((prev) => [...prev, occurrence]);
   };
 
@@ -39,11 +37,7 @@ const OccurrencesPage: React.FC = () => {
     const occDate = new Date(occ.date);
     const start = filterStart ? new Date(filterStart) : null;
     const end = filterEnd ? new Date(filterEnd) : null;
-
-    return (
-      (!start || occDate >= start) &&
-      (!end || occDate <= end)
-    );
+    return (!start || occDate >= start) && (!end || occDate <= end);
   });
 
   return (
@@ -61,14 +55,26 @@ const OccurrencesPage: React.FC = () => {
       </Flex>
 
       {/* Filtros */}
-      <Flex gap={4} mb={6} direction={['column', 'row']}>
+      <Flex gap={4} mb={6} direction={["column", "row"]}>
         <Box>
-          <Text fontSize="sm" mb={1}>Data Início</Text>
-          <Input type="date" value={filterStart} onChange={(e) => setFilterStart(e.target.value)} />
+          <Text fontSize="sm" mb={1}>
+            Data Início
+          </Text>
+          <Input
+            type="date"
+            value={filterStart}
+            onChange={(e) => setFilterStart(e.target.value)}
+          />
         </Box>
         <Box>
-          <Text fontSize="sm" mb={1}>Data Fim</Text>
-          <Input type="date" value={filterEnd} onChange={(e) => setFilterEnd(e.target.value)} />
+          <Text fontSize="sm" mb={1}>
+            Data Fim
+          </Text>
+          <Input
+            type="date"
+            value={filterEnd}
+            onChange={(e) => setFilterEnd(e.target.value)}
+          />
         </Box>
       </Flex>
 
@@ -108,90 +114,4 @@ const OccurrencesPage: React.FC = () => {
     </Box>
   );
 };
-
 export default OccurrencesPage;
-
-
-// components/OccurrenceModal.tsx
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  VStack,
-} from '@chakra-ui/react';
-import React, { useState } from 'react';
-
-type Occurrence = {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-};
-
-type Props = {
-  isOpen: boolean;
-  onClose: () => void;
-  onAddOccurrence: (occurrence: Occurrence) => void;
-};
-
-export const Occurrencemodal: React.FC<Props> = ({ isOpen, onClose, onAddOccurrence }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
-
-  const handleSubmit = () => {
-    if (!title || !description || !date) return;
-
-    const id = `OCC-${Date.now()}`;
-    onAddOccurrence({ id, title, description, date });
-    setTitle('');
-    setDescription('');
-    setDate('');
-    onClose();
-  };
-
-  return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Nova Ocorrência</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <VStack spacing={4}>
-            <FormControl isRequired>
-              <FormLabel>Título</FormLabel>
-              <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel>Descrição</FormLabel>
-              <Textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel>Data</FormLabel>
-              <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-            </FormControl>
-          </VStack>
-        </ModalBody>
-        <ModalFooter>
-          <Button onClick={onClose} mr={3}>
-            Cancelar
-          </Button>
-          <Button colorScheme="blue" onClick={handleSubmit}>
-            Registrar
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-};

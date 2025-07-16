@@ -1,17 +1,4 @@
-import { Box, Heading, Text } from '@chakra-ui/react';
-
-export default function Relatorios() {
-  return (
-    <Box p={8}>
-      <Heading>Relatorios</Heading>
-      <Text>Lista de relatorios aqui...</Text>
-    </Box>
-  
-}
-);
-
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -35,18 +22,20 @@ import {
   Grid,
   GridItem,
   VStack,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 const ReportsPage: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [filterData, setFilterData] = useState({
-    dateFrom: '',
-    dateTo: '',
-    type: '',
+    dateFrom: "",
+    dateTo: "",
+    type: "",
   });
   const toast = useToast();
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleFilterChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFilterData({
       ...filterData,
       [e.target.id]: e.target.value,
@@ -56,9 +45,9 @@ const ReportsPage: React.FC = () => {
   const handleSubmitReport = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toast({
-      title: 'Ocorrência registrada!',
-      description: 'Sua ocorrência foi registrada com sucesso.',
-      status: 'success',
+      title: "Ocorrência registrada!",
+      description: "Sua ocorrência foi registrada com sucesso.",
+      status: "success",
       duration: 3000,
       isClosable: true,
     });
@@ -69,7 +58,12 @@ const ReportsPage: React.FC = () => {
     <Box bg="gray.100" minH="100vh" p={4}>
       <Box maxW="7xl" mx="auto" px={[4, 6, 8]} py={8}>
         {/* Header */}
-        <Flex direction={['column', 'row']} justify="space-between" mb={8} align="center">
+        <Flex
+          direction={["column", "row"]}
+          justify="space-between"
+          mb={8}
+          align="center"
+        >
           <Box>
             <Heading size="lg" color="gray.900">
               Registros de Ocorrências
@@ -85,7 +79,7 @@ const ReportsPage: React.FC = () => {
             px={4}
             py={2}
             rounded="md"
-            _hover={{ bg: 'red.700' }}
+            _hover={{ bg: "red.700" }}
             onClick={onOpen}
           >
             Nova Ocorrência
@@ -94,10 +88,15 @@ const ReportsPage: React.FC = () => {
 
         {/* Filtros */}
         <Box bg="white" p={4} rounded="lg" shadow="sm" mb={8}>
-          <Grid templateColumns="repeat(1, 1fr)" gap={4} md={{ templateColumns: 'repeat(4, 1fr)' }}>
+          <Grid
+            templateColumns={["repeat(1, 1fr)", null, null, "repeat(4, 1fr)"]}
+            gap={4}
+          >
             <GridItem>
               <FormControl>
-                <FormLabel htmlFor="dateFrom" fontSize="sm">Data Início</FormLabel>
+                <FormLabel htmlFor="dateFrom" fontSize="sm">
+                  Data Início
+                </FormLabel>
                 <Input
                   type="date"
                   id="dateFrom"
@@ -110,7 +109,9 @@ const ReportsPage: React.FC = () => {
 
             <GridItem>
               <FormControl>
-                <FormLabel htmlFor="dateTo" fontSize="sm">Data Fim</FormLabel>
+                <FormLabel htmlFor="dateTo" fontSize="sm">
+                  Data Fim
+                </FormLabel>
                 <Input
                   type="date"
                   id="dateTo"
@@ -123,7 +124,9 @@ const ReportsPage: React.FC = () => {
 
             <GridItem>
               <FormControl>
-                <FormLabel htmlFor="type" fontSize="sm">Tipo</FormLabel>
+                <FormLabel htmlFor="type" fontSize="sm">
+                  Tipo
+                </FormLabel>
                 <Select
                   id="type"
                   value={filterData.type}
@@ -146,14 +149,17 @@ const ReportsPage: React.FC = () => {
                 px={4}
                 py={2}
                 rounded="md"
-                _hover={{ bg: 'red.700' }}
-                onClick={() => toast({
-                  title: 'Filtros aplicados',
-                  description: 'Filtros de data e tipo aplicados com sucesso.',
-                  status: 'info',
-                  duration: 3000,
-                  isClosable: true,
-                })}
+                _hover={{ bg: "red.700" }}
+                onClick={() =>
+                  toast({
+                    title: "Filtros aplicados",
+                    description:
+                      "Filtros de data e tipo aplicados com sucesso.",
+                    status: "info",
+                    duration: 3000,
+                    isClosable: true,
+                  })
+                }
               >
                 Filtrar
               </Button>
@@ -178,7 +184,11 @@ const ReportsPage: React.FC = () => {
               <VStack spacing={4} align="stretch">
                 <FormControl isRequired>
                   <FormLabel htmlFor="location">Local/Setor</FormLabel>
-                  <Input id="location" placeholder="Ex: Pronto Socorro, Enfermaria 3" required />
+                  <Input
+                    id="location"
+                    placeholder="Ex: Pronto Socorro, Enfermaria 3"
+                    required
+                  />
                 </FormControl>
 
                 <FormControl isRequired>
@@ -212,22 +222,38 @@ const ReportsPage: React.FC = () => {
 
                 <FormControl isRequired>
                   <FormLabel htmlFor="description">Descrição</FormLabel>
-                  <Textarea id="description" placeholder="Descreva detalhadamente a ocorrência..." required />
+                  <Textarea
+                    id="description"
+                    placeholder="Descreva detalhadamente a ocorrência..."
+                    required
+                  />
                 </FormControl>
 
                 <FormControl isRequired>
                   <FormLabel htmlFor="actions">Ações Tomadas</FormLabel>
-                  <Textarea id="actions" placeholder="Descreva as ações realizadas..." required />
+                  <Textarea
+                    id="actions"
+                    placeholder="Descreva as ações realizadas..."
+                    required
+                  />
                 </FormControl>
 
                 <FormControl>
                   <FormLabel htmlFor="team">Equipe Envolvida</FormLabel>
-                  <Input id="team" placeholder="Nomes dos brigadistas envolvidos" />
+                  <Input
+                    id="team"
+                    placeholder="Nomes dos brigadistas envolvidos"
+                  />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel htmlFor="equipment">Equipamentos Utilizados</FormLabel>
-                  <Input id="equipment" placeholder="Ex: Extintor ABC, mangueira..." />
+                  <FormLabel htmlFor="equipment">
+                    Equipamentos Utilizados
+                  </FormLabel>
+                  <Input
+                    id="equipment"
+                    placeholder="Ex: Extintor ABC, mangueira..."
+                  />
                 </FormControl>
               </VStack>
             </form>
@@ -241,8 +267,7 @@ const ReportsPage: React.FC = () => {
               bgGradient="linear(to-r, red.500, red.600)"
               color="white"
               type="submit"
-              onClick={handleSubmitReport}
-              _hover={{ bg: 'red.700' }}
+              _hover={{ bg: "red.700" }}
             >
               Registrar Ocorrência
             </Button>
@@ -254,5 +279,3 @@ const ReportsPage: React.FC = () => {
 };
 
 export default ReportsPage;
-
-

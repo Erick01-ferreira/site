@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Flex,
@@ -8,12 +7,13 @@ import {
   Button,
   Image,
   VStack,
-} from '@chakra-ui/react';
-import { useToast } from '@chakra-ui/toast';
-import { FormControl, FormLabel } from '@chakra-ui/form-control';
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
+//import { useToast } from "@chakra-ui/toast";
 
 export default function Login() {
-  const toast = useToast();
+  /*const toast = useToast();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ export default function Login() {
       duration: 3000,
       isClosable: true,
     });
-  };
+  };*/
 
   return (
     <Flex direction="column" minH="100vh" bg="gray.50" fontFamily="sans-serif">
@@ -63,8 +63,8 @@ export default function Login() {
           </Box>
 
           {/* Formulário */}
-          <Box as="form" px={8} py={6} >
-            <VStack >
+          <Box as="form" px={8} py={6}>
+            <VStack>
               <FormControl id="username" isRequired>
                 <FormLabel>Usuário</FormLabel>
                 <Input
@@ -90,8 +90,8 @@ export default function Login() {
                 color="white"
                 fontWeight="bold"
                 py={2}
-                _hover={{ bg: 'red.700' }}
-                _focus={{ ring: 2, ringColor: 'red.500' }}
+                _hover={{ bg: "red.700" }}
+                _focus={{ ring: 2, ringColor: "red.500" }}
               >
                 Acessar Sistema
               </Button>

@@ -1,82 +1,4 @@
-import React, { useState } from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  VStack,
-} from '@chakra-ui/react';
-
-type UserFormModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  onAddUser: (user: { name: string; email: string }) => void;
-};
-
-export const UserFormModal: React.FC<UserFormModalProps> = ({
-  isOpen,
-  onClose,
-  onAddUser,
-}) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-
-  const handleSubmit = () => {
-    if (!name || !email) return;
-    onAddUser({ name, email });
-    setName('');
-    setEmail('');
-    onClose();
-  };
-
-  return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Novo Usuário</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <VStack spacing={4}>
-            <FormControl isRequired>
-              <FormLabel>Nome</FormLabel>
-              <Input value={name} onChange={(e) => setName(e.target.value)} />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel>Email</FormLabel>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </FormControl>
-          </VStack>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="ghost" mr={3} onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button
-            colorScheme="blue"
-            onClick={handleSubmit}
-            isDisabled={!name || !email}
-          >
-            Adicionar
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-};
-
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -92,9 +14,9 @@ import {
   IconButton,
   useDisclosure,
   useToast,
-} from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
-import { UserFormModal } from '../components/UserFormModal';
+} from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { UserFormModal } from "@/components/UserFormModal";
 
 type User = {
   id: number;
@@ -107,15 +29,15 @@ const UsersPage: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
-  const addUser = (user: Omit<User, 'id'>) => {
+  const addUser = (user: Omit<User, "id">) => {
     const newUser: User = {
       id: Date.now(),
       ...user,
     };
     setUsers((prev) => [...prev, newUser]);
     toast({
-      title: 'Usuário adicionado',
-      status: 'success',
+      title: "Usuário adicionado",
+      status: "success",
       duration: 3000,
       isClosable: true,
     });
@@ -124,8 +46,8 @@ const UsersPage: React.FC = () => {
   const deleteUser = (id: number) => {
     setUsers((prev) => prev.filter((user) => user.id !== id));
     toast({
-      title: 'Usuário removido',
-      status: 'info',
+      title: "Usuário removido",
+      status: "info",
       duration: 2000,
       isClosable: true,
     });
