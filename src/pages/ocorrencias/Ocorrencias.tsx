@@ -1,48 +1,3 @@
-<<<<<<< HEAD
-import { useEffect, useState } from 'react';
-import api from '@/services/api'; // ← Import correto (sem apiFetch)
-import { Box, Heading, Table, Thead, Tr, Th, Tbody, Td, Text } from '@chakra-ui/react';
-
-type Ocorrencia = {
-  id: number;
-  titulo?: string;
-  descricao?: string;
-  date?: string;
-};
-
-export default function Ocorrencias() {
-  const [items, setItems] = useState<Ocorrencia[]>([]);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    api.get<Ocorrencia[]>('/ocorrencias')
-      .then(response => setItems(response.data))
-      .catch((e) => setError(e.message));
-  }, []);
-
-  return (
-    <Box p={8}>
-      <Heading size="lg" mb={4}>Ocorrências</Heading>
-      {error && <Text color="red.500">{error}</Text>}
-      <Table variant="simple">
-        <Thead>
-          <Tr><Th>ID</Th><Th>Título</Th><Th>Descrição</Th><Th>Data</Th></Tr>
-        </Thead>
-        <Tbody>
-          {items.map((o) => (
-            <Tr key={o.id}>
-              <Td>{o.id}</Td>
-              <Td>{o.titulo || '-'}</Td>
-              <Td>{o.descricao || '-'}</Td>
-              <Td>{o.date || '-'}</Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </Box>
-  );
-}
-=======
 import { OccurrenceModal } from "@/components/OccurrenceModal";
 import {
   Button,
@@ -59,7 +14,8 @@ import {
   Tbody,
   Td,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import api from '@/services/api';
 
 type OccurrenceData = {
   id: string;
@@ -68,11 +24,18 @@ type OccurrenceData = {
   date: string;
 };
 
-export const OccurrencesPage: React.FC = () => {
+export default function OccurrencesPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [occurrences, setOccurrences] = useState<OccurrenceData[]>([]);
   const [filterStart, setFilterStart] = useState("");
   const [filterEnd, setFilterEnd] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    api.get<OccurrenceData[]>('/ocorrencias')
+      .then(response => setOccurrences(response.data))
+      .catch((e) => setError(e.message));
+  }, []);
 
   const addOccurrence = (occurrence: OccurrenceData) => {
     setOccurrences((prev) => [...prev, occurrence]);
@@ -123,6 +86,8 @@ export const OccurrencesPage: React.FC = () => {
         </Box>
       </Flex>
 
+      {error && <Text color="red.500">{error}</Text>}
+
       {/* Lista */}
       <Box bg="white" p={6} borderRadius="md" shadow="sm">
         {filteredOccurrences.length === 0 ? (
@@ -158,6 +123,4 @@ export const OccurrencesPage: React.FC = () => {
       />
     </Box>
   );
-};
-export default OccurrencesPage;
->>>>>>> 65822de8bba77526f9253822cefe2538951bda22
+}

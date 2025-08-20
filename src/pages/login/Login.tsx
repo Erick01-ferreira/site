@@ -1,46 +1,3 @@
-<<<<<<< HEAD
-import { Box, Flex, Heading, Text, Input, Button, VStack, FormControl, FormLabel } from "@chakra-ui/react";
-import { useState } from 'react';
-import { login } from '@/services/auth';
-
-export default function Login() {
-  const [loginField, setLoginField] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      await login({ login: loginField, password });
-      window.location.href = '/';
-    } catch (err: any) {
-      setError(err.message || 'Falha no login');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <Flex minH="100vh" align="center" justify="center" bg="gray.50">
-      <Box as="form" onSubmit={handleSubmit} bg="white" p={8} rounded="lg" shadow="md" minW="sm">
-        <VStack spacing={4} align="stretch">
-          <Heading size="md" textAlign="center">Entrar</Heading>
-          <FormControl>
-            <FormLabel>Login</FormLabel>
-            <Input value={loginField} onChange={(e)=>setLoginField(e.target.value)} placeholder="seu usuário" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Senha</FormLabel>
-            <Input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="••••••" />
-          </FormControl>
-          {error && <Text color="red.500" fontSize="sm">{error}</Text>}
-          <Button type="submit" isLoading={loading} colorScheme="red">Entrar</Button>
-        </VStack>
-      </Box>
-=======
 import {
   Box,
   Flex,
@@ -52,22 +9,39 @@ import {
   VStack,
   FormControl,
   FormLabel,
+  useToast
 } from "@chakra-ui/react";
-//import { useToast } from "@chakra-ui/toast";
+import { useState } from 'react';
+import { login } from '@/services/auth';
 
 export default function Login() {
-  /*const toast = useToast();
+  const [loginField, setLoginField] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: 'Login simulado',
-      description: 'Usuário: teste1 | Senha: teste123',
-      status: 'info',
-      duration: 3000,
-      isClosable: true,
-    });
-  };*/
+    setLoading(true);
+    setError(null);
+    
+    try {
+      await login({ login: loginField, password });
+      window.location.href = '/';
+    } catch (err: any) {
+      setError(err.message || 'Falha no login');
+      toast({
+        title: 'Erro de login',
+        description: err.message || 'Credenciais inválidas',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Flex direction="column" minH="100vh" bg="gray.50" fontFamily="sans-serif">
@@ -106,14 +80,16 @@ export default function Login() {
           </Box>
 
           {/* Formulário */}
-          <Box as="form" px={8} py={6}>
-            <VStack>
+          <Box as="form" onSubmit={handleSubmit} px={8} py={6}>
+            <VStack spacing={4}>
               <FormControl id="username" isRequired>
                 <FormLabel>Usuário</FormLabel>
                 <Input
                   type="text"
                   placeholder="Informe seu usuário"
                   borderColor="blue.500"
+                  value={loginField}
+                  onChange={(e) => setLoginField(e.target.value)}
                 />
               </FormControl>
 
@@ -123,8 +99,16 @@ export default function Login() {
                   type="password"
                   placeholder="Informe sua senha"
                   borderColor="blue.500"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </FormControl>
+
+              {error && (
+                <Text color="red.500" fontSize="sm">
+                  {error}
+                </Text>
+              )}
 
               <Button
                 type="submit"
@@ -133,6 +117,7 @@ export default function Login() {
                 color="white"
                 fontWeight="bold"
                 py={2}
+                isLoading={loading}
                 _hover={{ bg: "red.700" }}
                 _focus={{ ring: 2, ringColor: "red.500" }}
               >
@@ -151,12 +136,11 @@ export default function Login() {
             textAlign="center"
           >
             <Text fontSize="sm" color="gray.600">
-              Use: <b></b> / <b></b>
+              Use: <b>teste1</b> / <b>teste123</b>
             </Text>
           </Box>
         </Box>
       </Flex>
->>>>>>> 65822de8bba77526f9253822cefe2538951bda22
     </Flex>
   );
 }
